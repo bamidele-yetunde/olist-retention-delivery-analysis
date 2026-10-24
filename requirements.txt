@@ -1,0 +1,8 @@
+pandas>=2.2
+numpy>=1.26
+matplotlib>=3.8
+seaborn>=0.13
+openpyxl>=3.1
+pymysql>=1.1
+reportlab>=4.0
+jupyter>=1.0
