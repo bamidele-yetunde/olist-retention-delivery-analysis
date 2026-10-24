@@ -1,0 +1,8 @@
+dimension,segment,customers,repeat_customers,repeat_rate_pct
+first order late?,late,6352,160.0,2.52
+first order late?,on time,86744,2629.0,3.03
+first order review score,1,9374,268.0,2.86
+first order review score,2,2895,80.0,2.76
+first order review score,3,7738,232.0,3.0
+first order review score,4,18357,503.0,2.74
+first order review score,5,54732,1706.0,3.12

@@ -1,0 +1,125 @@
+// =====================================================================
+//  DAX measures for the Olist delivery & reviews dashboard
+//  Model: fact_orders (order grain) + fact_order_items (item grain)
+//         dim_customer, dim_seller, dim_product, dim_state, dim_date, cohort_retention
+//  All 52 live in the _Measures table of Olist Delivery Dashboard.pbix
+//  (Home > Enter data > empty table named _Measures, then New measure)
+// =====================================================================
+
+// ---------- Volume & revenue ----------
+
+Orders = COUNTROWS ( fact_orders )    // format: #,0
+
+Customers = DISTINCTCOUNT ( fact_orders[customer_unique_id] )    // format: #,0
+
+Revenue = SUM ( fact_orders[revenue] )    // format: #,0
+
+Freight = SUM ( fact_orders[freight] )    // format: #,0
+
+Avg Order Value = DIVIDE ( [Revenue], [Orders] )    // format: #,0.00
+
+Freight % of Price = DIVIDE ( [Freight], [Revenue] )    // format: 0.0%
+
+// ---------- Delivery ----------
+
+Late Orders = CALCULATE ( [Orders], fact_orders[is_late] = 1 )    // format: #,0
+
+On-time Orders = CALCULATE ( [Orders], fact_orders[is_late] = 0 )    // format: #,0
+
+Late Rate = DIVIDE ( [Late Orders], [Orders] )    // format: 0.0%
+
+On-time Rate = 1 - [Late Rate]    // format: 0.0%
+
+Avg Delivery Days = AVERAGE ( fact_orders[delivery_days] )    // format: 0.0
+
+Avg Promised Days = AVERAGE ( fact_orders[promised_days] )    // format: 0.0
+
+Avg Delay Days = AVERAGE ( fact_orders[delay_days] )    // format: 0.0
+
+Avg Days Late (late only) = CALCULATE ( AVERAGE ( fact_orders[delay_days] ), fact_orders[is_late] = 1 )    // format: 0.0
+
+Avg Seller Handling Days = AVERAGE ( fact_orders[handling_days] )    // format: 0.0
+
+Avg Carrier Transit Days = AVERAGE ( fact_orders[transit_days] )    // format: 0.0
+
+Shipped After Deadline % = DIVIDE ( CALCULATE ( [Orders], fact_orders[shipped_after_limit] = 1 ), [Orders] )    // format: 0.0%
+
+Late Rate vs National = [Late Rate] - CALCULATE ( [Late Rate], REMOVEFILTERS ( dim_state ), REMOVEFILTERS ( fact_orders[customer_state] ) )    // format: +0.0%;-0.0%;0.0%
+
+// ---------- Reviews ----------
+
+Avg Review Score = AVERAGE ( fact_orders[review_score] )    // format: 0.00
+
+Reviewed Orders = CALCULATE ( [Orders], NOT ISBLANK ( fact_orders[review_score] ) )    // format: #,0
+
+One-star Orders = CALCULATE ( [Orders], fact_orders[review_score] = 1 )    // format: #,0
+
+One-star Rate = DIVIDE ( [One-star Orders], [Reviewed Orders] )    // format: 0.0%
+
+Four-five-star Rate = DIVIDE ( CALCULATE ( [Orders], fact_orders[review_score] >= 4 ), [Reviewed Orders] )    // format: 0.0%
+
+Avg Score On-time = CALCULATE ( [Avg Review Score], fact_orders[is_late] = 0 )    // format: 0.00
+
+Avg Score Late = CALCULATE ( [Avg Review Score], fact_orders[is_late] = 1 )    // format: 0.00
+
+One-star Rate On-time = CALCULATE ( [One-star Rate], fact_orders[is_late] = 0 )    // format: 0.0%
+
+One-star Rate Late = CALCULATE ( [One-star Rate], fact_orders[is_late] = 1 )    // format: 0.0%
+
+Share of 1-stars from Late Orders = DIVIDE ( CALCULATE ( [One-star Orders], fact_orders[is_late] = 1 ), [One-star Orders] )    // format: 0.0%
+
+Score Gap (on-time minus late) = [Avg Score On-time] - [Avg Score Late]    // format: 0.00
+
+// ---------- Retention ----------
+
+Repeat Customers = CALCULATE ( DISTINCTCOUNT ( fact_orders[customer_unique_id] ), fact_orders[customer_orders] > 1 )    // format: #,0
+
+Repeat Customer Rate = DIVIDE ( [Repeat Customers], [Customers] )    // format: 0.00%
+
+Customers (dim) = COUNTROWS ( dim_customer )    // format: #,0
+
+Repeat Rate (dim) = DIVIDE ( CALCULATE ( COUNTROWS ( dim_customer ), dim_customer[is_repeat_customer] = 1 ), COUNTROWS ( dim_customer ) )    // format: 0.00%
+
+Repeat Rate (first order on time) = CALCULATE ( [Repeat Rate (dim)], dim_customer[first_order_late] = 0 )    // format: 0.00%
+
+Repeat Rate (first order late) = CALCULATE ( [Repeat Rate (dim)], dim_customer[first_order_late] = 1 )    // format: 0.00%
+
+Retention % = DIVIDE ( SUM ( cohort_retention[active_customers] ), SUM ( cohort_retention[cohort_customers] ) )    // format: 0.00%
+
+// ---------- Time intelligence ----------
+
+Revenue PM = CALCULATE ( [Revenue], DATEADD ( dim_date[date], -1, MONTH ) )    // format: #,0
+
+Revenue MoM % = DIVIDE ( [Revenue] - [Revenue PM], [Revenue PM] )    // format: +0.0%;-0.0%;0.0%
+
+Late Rate PM = CALCULATE ( [Late Rate], DATEADD ( dim_date[date], -1, MONTH ) )    // format: 0.0%
+
+Late Rate Change (pts) = ( [Late Rate] - [Late Rate PM] ) * 100    // format: +0.0;-0.0;0.0
+
+// ---------- Share helpers, item grain and seller grain ----------
+
+Share of Late Orders = DIVIDE ( [Late Orders], CALCULATE ( [Late Orders], REMOVEFILTERS ( dim_state ), REMOVEFILTERS ( fact_orders ) ) )    // format: 0.0%
+
+Share of Orders = DIVIDE ( [Orders], CALCULATE ( [Orders], REMOVEFILTERS ( dim_state ), REMOVEFILTERS ( fact_orders ) ) )    // format: 0.0%
+
+Items Revenue = SUM ( fact_order_items[price] )    // format: #,0
+
+Share of Items Revenue = DIVIDE ( [Items Revenue], CALCULATE ( [Items Revenue], REMOVEFILTERS ( dim_product ) ) )    // format: 0.0%
+
+Seller Orders = SUM ( dim_seller[orders] )    // format: #,0
+
+Seller Late Rate = DIVIDE ( SUM ( dim_seller[late_orders] ), SUM ( dim_seller[orders] ) )    // format: 0.0%
+
+Seller Avg Review Score = AVERAGE ( dim_seller[avg_review_score] )    // format: 0.00
+
+Seller Shipped After Deadline % = AVERAGE ( dim_seller[pct_shipped_after_deadline] ) / 100    // format: 0.0%
+
+Seller On Time % (late orders) = CALCULATE ( 1 - [Shipped After Deadline %], fact_orders[is_late] = 1 )    // format: 0.0%
+
+Sellers = COUNTROWS ( dim_seller )    // format: #,0
+
+Sellers with 100+ Orders = CALCULATE ( COUNTROWS ( dim_seller ), dim_seller[orders] >= 100 )    // format: #,0
+
+// ---------- Text for a card ----------
+
+Headline Late vs On-time = "Late orders: " & FORMAT ( [Avg Score Late], "0.00" ) & " stars  |  On time: " & FORMAT ( [Avg Score On-time], "0.00" ) & " stars"

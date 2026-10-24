@@ -1,0 +1,28 @@
+state,state_name,region,country,map_location,lat,lng
+AC,Acre,North,Brazil,"Acre, Brazil",-9.96204619900166,-67.83063844823705
+AL,Alagoas,Northeast,Brazil,"Alagoas, Brazil",-9.636921702189985,-35.75405583423739
+AP,Amapá,North,Brazil,"Amapá, Brazil",0.031212191797078,-51.07432880296869
+AM,Amazonas,North,Brazil,"Amazonas, Brazil",-3.0897041158423555,-60.01199792346642
+BA,Bahia,Northeast,Brazil,"Bahia, Brazil",-12.956340101304178,-38.95769700000001
+CE,Ceará,Northeast,Brazil,"Ceará, Brazil",-3.789733594090806,-38.58516158878826
+DF,Distrito Federal,Central-West,Brazil,"Distrito Federal, Brazil",-15.817696084728826,-47.939321871464934
+ES,Espírito Santo,Southeast,Brazil,"Espírito Santo, Brazil",-20.29449467751298,-40.320773632519405
+GO,Goiás,Central-West,Brazil,"Goiás, Brazil",-16.68292935350643,-49.26568051004018
+MA,Maranhão,Northeast,Brazil,"Maranhão, Brazil",-3.2880628461936268,-44.29828814141035
+MT,Mato Grosso,Central-West,Brazil,"Mato Grosso, Brazil",-15.244604072634878,-56.03918856094813
+MS,Mato Grosso do Sul,Central-West,Brazil,"Mato Grosso do Sul, Brazil",-20.482335,-54.61425123838669
+MG,Minas Gerais,Southeast,Brazil,"Minas Gerais, Brazil",-19.921037793236717,-43.979357029358255
+PA,Pará,North,Brazil,"Pará, Brazil",-1.462892304085404,-48.484244852025675
+PB,Paraíba,Northeast,Brazil,"Paraíba, Brazil",-7.12507963884887,-35.488833117139684
+PR,Paraná,South,Brazil,"Paraná, Brazil",-25.384073578827376,-50.61820302912402
+PE,Pernambuco,Northeast,Brazil,"Pernambuco, Brazil",-8.081545036501964,-34.953490566764366
+PI,Piauí,Northeast,Brazil,"Piauí, Brazil",-5.099470496630321,-42.76311749999999
+RJ,Rio de Janeiro,Southeast,Brazil,"Rio de Janeiro, Brazil",-22.87447770934209,-43.24205836305944
+RN,Rio Grande do Norte,Northeast,Brazil,"Rio Grande do Norte, Brazil",-5.8353840838190365,-35.263536750000014
+RS,Rio Grande do Sul,South,Brazil,"Rio Grande do Sul, Brazil",-29.795337921302306,-51.24934409258306
+RO,Rondônia,North,Brazil,"Rondônia, Brazil",-10.431415596800106,-63.021605336694336
+RR,Roraima,North,Brazil,"Roraima, Brazil",2.82302598996181,-60.698430787880675
+SC,Santa Catarina,South,Brazil,"Santa Catarina, Brazil",-27.099249961841394,-49.03505751283603
+SP,São Paulo,Southeast,Brazil,"São Paulo, Brazil",-23.525004489035727,-46.68772019224312
+SE,Sergipe,Northeast,Brazil,"Sergipe, Brazil",-10.927160765297494,-37.07137233919993
+TO,Tocantins,North,Brazil,"Tocantins, Brazil",-10.181895570656742,-48.32696518501806

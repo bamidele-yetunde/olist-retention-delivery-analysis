@@ -1,0 +1,3 @@
+delivery_outcome,orders,avg_seller_handling_days,avg_carrier_transit_days,avg_total_delivery_days,avg_promised_days,pct_shipped_after_seller_deadline,avg_review_score
+on time,89658,2.6,8.0,11.0,23.7,7.5,4.28
+late,6530,5.5,27.9,33.9,22.6,27.7,2.25

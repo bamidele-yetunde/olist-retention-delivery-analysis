@@ -1,0 +1,2 @@
+delivered_orders,customers,revenue_brl,avg_order_value_brl,pct_late,late_orders,revenue_in_late_orders_brl,avg_delivery_days,avg_promised_days,avg_delay_days_neg_is_early,avg_days_late_when_late,avg_review_score,avg_score_on_time,avg_score_late,pct_one_star_on_time,pct_one_star_late,pct_of_all_one_stars_from_late_orders,pct_late_orders_seller_shipped_late
+96203,93096,13179777.95,137.0,6.79,6531.0,985618.47,12.5,23.6,-11.8,10.6,4.14,4.28,2.26,6.8,54.2,36.6,27.7
